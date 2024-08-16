@@ -1,4 +1,8 @@
-import React, { useState, useEffect } from 'react';
+// App.js
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import TrainSchedule from './TrainSchedule';
+import MapPage from './MapPage';
 import './App.css';
 
 function App() {
@@ -24,36 +28,13 @@ function App() {
       });
   }, []);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
-
   return (
-    <div className="App">
-      <h1>Train Schedule</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>Train Number</th>
-            <th>Route Number</th>
-            <th>Location (Longitude, Latitude)</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((row, index) => (
-            <tr key={index}>
-              <td>{row.trainNumber}</td>
-              <td>{row.routeNumber}</td>
-              <td>{`${row.currentLocation.coordinates[0]}, ${row.currentLocation.coordinates[1]}`}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<TrainSchedule data={data} loading={loading} error={error} />} />
+        <Route path="/map" element={<MapPage data={data} />} />
+      </Routes>
+    </Router>
   );
 }
 
