@@ -10383,33 +10383,8 @@ const geoJsonUrl = {
           "note": "The train ferry is canceled since 1980's",
           "railway": "abandoned",
           "route": "ferry"
-        },
-        "geometry": {
-          "type": "LineString",
-          "coordinates": [
-            [
-              79.7302027,
-              9.1098414
-            ],
-            [
-              79.7300317,
-              9.1111805
-            ],
-            [
-              79.7295191,
-              9.1119903
-            ],
-            [
-              79.7286748,
-              9.1127213
-            ],
-            [
-              79.3158697,
-              9.2819741
-            ]
-          ]
-        },
-        "id": "way/22832798"
+        }
+        
       },
       {
         "type": "Feature",

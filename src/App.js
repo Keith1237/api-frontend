@@ -1,6 +1,7 @@
 // App.js
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import HomePage from './HomePage'; // Import the new HomePage component
 import TrainSchedule from './TrainSchedule';
 import MapPage from './MapPage';
 import './App.css';
@@ -31,7 +32,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<TrainSchedule data={data} loading={loading} error={error} />} />
+        <Route path="/" element={<HomePage />} /> {/* HomePage as the default route */}
+        <Route path="/train-schedule" element={<TrainSchedule data={data} loading={loading} error={error} />} />
         <Route path="/map" element={<MapPage data={data} />} />
       </Routes>
     </Router>

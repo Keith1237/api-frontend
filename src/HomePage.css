@@ -1,0 +1,71 @@
+/* HomePage.css */
+.home-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .home-content {
+    text-align: center;
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .home-title {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .home-description {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 30px;
+  }
+  
+  .button-group {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+  }
+  
+  .home-button {
+    padding: 15px 30px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .user-button {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .admin-button {
+    background-color: #FF5722;
+    color: white;
+  }
+  
+  .home-button:hover {
+    transform: translateY(-3px);
+  }
+  
+  .home-button:active {
+    transform: translateY(1px);
+  }
+  
+  .user-button:hover {
+    background-color: #45a049;
+  }
+  
+  .admin-button:hover {
+    background-color: #e64a19;
+  }
+  

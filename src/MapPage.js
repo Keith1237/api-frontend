@@ -1,4 +1,3 @@
-// MapPage.js
 import React, { useEffect } from 'react';
 import { MapContainer, TileLayer, GeoJSON, Marker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -13,10 +12,9 @@ const MapPage = () => {
   const { selectedTrain, allTrainData } = location.state || {};
 
   useEffect(() => {
-    console.log(location);
+    console.log("Location state:", location.state);
   }, [location]);
 
- 
   const trainIcon = new L.Icon({
     iconUrl: trainIconUrl, 
     iconSize: [25, 25],
@@ -24,18 +22,26 @@ const MapPage = () => {
     popupAnchor: [0, -24]
   });
 
- 
   const railwayStyle = {
     color: 'black',
     weight: 2,
   };
 
-  
   const CenterMapOnSelectedTrain = ({ selectedTrain }) => {
     const map = useMap();
 
-    if (selectedTrain) {
-      map.setView([selectedTrain.currentLocation.coordinates[1], selectedTrain.currentLocation.coordinates[0]], 13);
+    if (selectedTrain && selectedTrain.currentLocation && selectedTrain.currentLocation.coordinates) {
+      const [lng, lat] = selectedTrain.currentLocation.coordinates;
+
+      // Ensure coordinates are valid numbers
+      if (!isNaN(lat) && !isNaN(lng)) {
+        map.setView([lat, lng], 13);
+      } else {
+        console.error("Invalid coordinates for selectedTrain:", selectedTrain.currentLocation.coordinates);
+      }
+    } else {
+      // Default center if no valid train location is provided
+      map.setView([7.8731, 80.7718], 7);
     }
 
     return null;
@@ -44,27 +50,29 @@ const MapPage = () => {
   return (
     <div className="map-page">
       <div className="map-container">
-        <MapContainer center={selectedTrain ? [selectedTrain.currentLocation.coordinates[1], selectedTrain.currentLocation.coordinates[0]] : [7.8731, 80.7718]} zoom={13} style={{ height: '100%', width: '100%' }}>
+        <MapContainer center={selectedTrain && selectedTrain.currentLocation && selectedTrain.currentLocation.coordinates ? [selectedTrain.currentLocation.coordinates[1], selectedTrain.currentLocation.coordinates[0]] : [7.8731, 80.7718]} zoom={13} style={{ height: '100%', width: '100%' }}>
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           />
           <GeoJSON data={railwayData} style={railwayStyle} />
           {allTrainData && allTrainData.map(train => (
-            <Marker
-              key={train.trainNumber}
-              position={[train.currentLocation.coordinates[1], train.currentLocation.coordinates[0]]} 
-              icon={trainIcon}
-            >
-              <Popup>
-                Train Number: {train.trainNumber}<br />
-                Route Number: {train.routeNumber}
-              </Popup>
-            </Marker>
+            train.currentLocation && train.currentLocation.coordinates && !isNaN(train.currentLocation.coordinates[1]) && !isNaN(train.currentLocation.coordinates[0]) && (
+              <Marker
+                key={train.trainNumber}
+                position={[train.currentLocation.coordinates[1], train.currentLocation.coordinates[0]]} 
+                icon={trainIcon}
+              >
+                <Popup>
+                  Train Number: {train.trainNumber}<br />
+                  Route Number: {train.routeNumber}
+                </Popup>
+              </Marker>
+            )
           ))}
-          {selectedTrain && (
+          {selectedTrain && selectedTrain.currentLocation && selectedTrain.currentLocation.coordinates && !isNaN(selectedTrain.currentLocation.coordinates[1]) && !isNaN(selectedTrain.currentLocation.coordinates[0]) && (
             <Marker
-              position={[selectedTrain.currentLocation.coordinates[1], selectedTrain.currentLocation.coordinates[0]]} // Ensure correct coordinate order
+              position={[selectedTrain.currentLocation.coordinates[1], selectedTrain.currentLocation.coordinates[0]]} 
               icon={trainIcon}
             >
               <Popup>
@@ -77,7 +85,7 @@ const MapPage = () => {
         </MapContainer>
       </div>
 
-      <Link to="/">
+      <Link to="/train-schedule">
         <button className="back-button">Back to Schedule</button>
       </Link>
     </div>
