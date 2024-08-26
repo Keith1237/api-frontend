@@ -1,9 +1,11 @@
 // App.js
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import HomePage from './HomePage'; // Import the new HomePage component
+import HomePage from './HomePage'; // Import the HomePage component
 import TrainSchedule from './TrainSchedule';
 import MapPage from './MapPage';
+import AdminLogin from './Admin/AdminLogin'; // Import the AdminLogin component
+import AdminActions from './Admin/AdminActions'; // Import the AdminActions component
 import './App.css';
 
 function App() {
@@ -35,6 +37,8 @@ function App() {
         <Route path="/" element={<HomePage />} /> {/* HomePage as the default route */}
         <Route path="/train-schedule" element={<TrainSchedule data={data} loading={loading} error={error} />} />
         <Route path="/map" element={<MapPage data={data} />} />
+        <Route path="/admin-login" element={<AdminLogin />} /> {/* Route for Admin Login */}
+        <Route path="/admin-actions" element={<AdminActions />} /> {/* Route for Admin Actions */}
       </Routes>
     </Router>
   );

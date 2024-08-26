@@ -1,7 +1,6 @@
-// HomePage.js
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import './HomePage.css'; // Import a separate CSS file for HomePage styling
+import './HomePage.css';
 
 function HomePage() {
   const navigate = useNavigate();
@@ -11,7 +10,7 @@ function HomePage() {
   };
 
   const handleAdminClick = () => {
-    alert('Admin page is under construction!');
+    navigate('/admin-login');
   };
 
   return (

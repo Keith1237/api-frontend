@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { FaArrowLeft } from 'react-icons/fa'; // Import the back icon
+import { useNavigate, useLocation } from 'react-router-dom';
+import { FaArrowLeft } from 'react-icons/fa';
 import './App.css';
 
 function TrainSchedule() {
@@ -12,56 +12,87 @@ function TrainSchedule() {
   const [startStation, setStartStation] = useState('');
   const [endStation, setEndStation] = useState('');
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    // Fetch all train routes
-    fetch('http://localhost:3000/trains/routes')
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setData(data);
-        setFilteredData(data); // Initially show all data
+    const fetchData = async () => {
+      try {
+        const trainRouteResponse = await fetch('http://localhost:3000/trains/trainRoute');
+        if (!trainRouteResponse.ok) throw new Error('Failed to fetch train routes');
+        const trainRoutes = await trainRouteResponse.json();
+
+        const trainDetailsResponse = await fetch('http://localhost:3000/trains');
+        if (!trainDetailsResponse.ok) throw new Error('Failed to fetch train details');
+        const trainDetails = await trainDetailsResponse.json();
+
+        const railwayRoutesResponse = await fetch('http://localhost:3000/trains/railwayRoutes');
+        if (!railwayRoutesResponse.ok) throw new Error('Failed to fetch railway routes');
+        const railwayRoutes = await railwayRoutesResponse.json();
+
+        // Fetch station names for the dropdowns
+        const stationsResponse = await fetch('http://localhost:3000/trains/Stations');
+        if (!stationsResponse.ok) throw new Error('Failed to fetch stations');
+        const stationsData = await stationsResponse.json();
+        setStations(stationsData);
+
+        // Merging data from all APIs
+        const mergedData = trainRoutes.map((route) => {
+          const trainDetail = trainDetails.find((train) => train.trainNumber === route.trainNumber);
+          const railwayRoute = railwayRoutes.find((rRoute) => rRoute.routeNumber === route.routeNumber);
+
+          return {
+            trainNumber: route.trainNumber,
+            routeNumber: route.routeNumber,
+            trainName: trainDetail ? trainDetail.trainName : 'N/A',
+            currentLocation: route.currentLocation,
+            startStation: railwayRoute ? railwayRoute.startStation : 'N/A',
+            endStation: railwayRoute ? railwayRoute.endStation : 'N/A',
+            distance: railwayRoute ? railwayRoute.distance : 'N/A',
+            departure: route.departure,
+            arrival: route.arrival,
+          };
+        });
+
+        setData(mergedData);
+        setFilteredData(mergedData); // Initially display all data
         setLoading(false);
-      })
-      .catch((error) => {
+      } catch (error) {
         setError(error);
         setLoading(false);
-      });
+      }
+    };
 
-    // Fetch station names for the dropdowns
-    fetch('http://localhost:3000/trains/Stations')
-      .then((response) => response.json())
-      .then((stations) => {
-        setStations(stations);
-      })
-      .catch((error) => {
-        console.error("Error fetching stations:", error);
-      });
+    fetchData();
   }, []);
 
-  const handleRowClick = (train) => {
-    navigate("/map", { state: { selectedTrain: train, allTrainData: data } });
+  const handleSearch = async () => {
+    if (startStation && endStation) {
+      try {
+        const response = await fetch(
+          `http://localhost:3000/trains/railwayRoutesByStations?startStation=${startStation}&endStation=${endStation}`
+        );
+        if (!response.ok) throw new Error('Failed to fetch filtered routes');
+        const filteredRoutes = await response.json();
+
+        const filteredRouteNumbers = filteredRoutes.map((route) => route.routeNumber);
+
+        const newFilteredData = data.filter((train) =>
+          filteredRouteNumbers.includes(train.routeNumber)
+        );
+
+        setFilteredData(newFilteredData);
+      } catch (error) {
+        setError(error);
+      }
+    }
   };
 
-  const handleSearch = () => {
-    const url = `http://localhost:3000/trains/routesByStations?startStation=${startStation}&endStation=${endStation}`;
-    fetch(url)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then((filteredData) => {
-        setFilteredData(filteredData);
-      })
-      .catch((error) => {
-        setError(error);
-      });
+  const handleRowClick = (train) => {
+    navigate("/map", { state: { selectedTrain: train, allTrainData: data, from: location.state?.from || 'TrainSchedule' } });
+  };
+
+  const handleBackButtonClick = () => {
+    navigate(location.state?.from ? `/${location.state.from}` : '/');
   };
 
   if (loading) {
@@ -75,7 +106,7 @@ function TrainSchedule() {
   return (
     <div className="App">
       <div className="header">
-        <button className="back-button" onClick={() => navigate('/')}>
+        <button className="back-button" onClick={handleBackButtonClick}>
           <FaArrowLeft size={20} />
         </button>
         <h1>Train Schedule</h1>
@@ -118,7 +149,13 @@ function TrainSchedule() {
           <tr>
             <th>Train Number</th>
             <th>Route Number</th>
-            <th>Location (Longitude, Latitude)</th>
+            <th>Train Name</th>
+            <th>Current Location (Longitude, Latitude)</th>
+            <th>Start Station</th>
+            <th>Departure</th>
+            <th>End Station</th>
+            <th>Arrival</th>
+            <th>Distance</th>
           </tr>
         </thead>
         <tbody>
@@ -126,7 +163,13 @@ function TrainSchedule() {
             <tr key={index} onClick={() => handleRowClick(row)}>
               <td>{row.trainNumber}</td>
               <td>{row.routeNumber}</td>
+              <td>{row.trainName}</td>
               <td>{`${row.currentLocation.coordinates[0]}, ${row.currentLocation.coordinates[1]}`}</td>
+              <td>{row.startStation}</td>
+              <td>{row.departure}</td>
+              <td>{row.endStation}</td>
+              <td>{row.arrival}</td>
+              <td>{row.distance}</td>
             </tr>
           ))}
         </tbody>
