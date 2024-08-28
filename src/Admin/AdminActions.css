@@ -1,30 +1,328 @@
-/* AdminActions.css */
+/* Container for admin actions */
 .admin-actions-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-  }
-  
-  .button-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    margin-top: 20px;
-  }
-  
-  button {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    transition: background-color 0.3s ease;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #f0f2f5; /* Light background color for the container */
+  min-height: 100vh; /* Ensure the container takes up at least the full viewport height */
+}
+
+/* Grid layout for buttons */
+.button-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Fixed three columns per row */
+  gap: 20px;
+  margin-top: 20px;
+  width: 100%;
+  max-width: 900px; /* Adjusted maximum width for a better layout with three columns */
+}
+
+/* Styling for buttons */
+button {
+  padding: 12px 24px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 8px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px); /* Slight lift effect on hover */
+}
+
+.see-train-schedule-button {
+  grid-column: span 3; /* Span across all columns */
+  background-color: #28a745;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.see-train-schedule-button:hover {
+  background-color: #218838;
+}
+
+/* Forms styling */
+.create-train-form, .create-station-form, .update-train-route-form, .create-train-route-form {
+  margin-top: 30px;
+  padding: 20px;
+  width: 100%;
+  max-width: 600px; /* Increased width for larger forms */
+  background-color: white; /* White background for forms */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Enhanced shadow for better focus */
+}
+
+/* Form groups and input styling */
+.create-train-form .form-group, .create-station-form .form-group, .update-train-route-form .form-group, .create-train-route-form .form-group {
+  margin-bottom: 20px; /* Increased margin for better spacing */
+}
+
+.create-train-form label, .create-station-form label, .update-train-route-form label, .create-train-route-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600; /* Slightly bolder font weight */
+  color: #333; /* Darker text color for better readability */
+}
+
+.create-train-form input, .create-station-form input, .update-train-route-form input, .create-train-route-form input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px; /* Slightly larger border radius */
+  font-size: 16px; /* Larger font size for better readability */
+}
+
+.create-train-form button[type="submit"], .create-station-form button[type="submit"], .update-train-route-form button[type="submit"], .create-train-route-form button[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px; /* Consistent font size */
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.create-train-form button[type="submit"]:hover, .create-station-form button[type="submit"]:hover, .update-train-route-form button[type="submit"]:hover, .create-train-route-form button[type="submit"]:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px); /* Slight lift effect on hover */
+}
+
+.create-line-form {
+  margin-top: 30px;
+  padding: 20px;
+  width: 100%;
+  max-width: 500px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.create-line-form .form-group {
+  margin-bottom: 15px;
+}
+
+.create-line-form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.create-line-form input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.create-line-form button[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.create-line-form button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+.create-railway-route-form {
+  margin-top: 30px;
+  padding: 20px;
+  width: 100%;
+  max-width: 500px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.create-railway-route-form .form-group {
+  margin-bottom: 15px;
+}
+
+.create-railway-route-form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.create-railway-route-form input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.create-railway-route-form button[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.create-railway-route-form button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+.delete-railway-route-form {
+  margin-top: 30px;
+  padding: 20px;
+  width: 100%;
+  max-width: 500px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.delete-railway-route-form .form-group {
+  margin-bottom: 15px;
+}
+
+.delete-railway-route-form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.delete-railway-route-form input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.delete-railway-route-form button[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.delete-railway-route-form button[type="submit"]:hover {
+  background-color: #c82333;
+}
+
+.create-admin-form {
+  margin-top: 30px;
+  padding: 20px;
+  width: 100%;
+  max-width: 500px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.create-admin-form .form-group {
+  margin-bottom: 15px;
+}
+
+.create-admin-form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.create-admin-form input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.create-admin-form button[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.create-admin-form button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+.delete-admin-form {
+  margin-top: 30px;
+  padding: 20px;
+  width: 100%;
+  max-width: 500px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.delete-admin-form .form-group {
+  margin-bottom: 15px;
+}
+
+.delete-admin-form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.delete-admin-form input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.delete-admin-form button[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.delete-admin-form button[type="submit"]:hover {
+  background-color: #c82333;
+}
+
+/* Add this CSS to your stylesheet */
+.alert-container {
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.alert-error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
