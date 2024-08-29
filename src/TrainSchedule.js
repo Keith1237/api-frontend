@@ -150,29 +150,61 @@ function TrainSchedule() {
             <th>Train Number</th>
             <th>Route Number</th>
             <th>Train Name</th>
-            <th>Current Location (Longitude, Latitude)</th>
             <th>Start Station</th>
             <th>Departure</th>
             <th>End Station</th>
             <th>Arrival</th>
             <th>Distance</th>
+            <th>Current Location</th>
           </tr>
         </thead>
-        <tbody>
+        {/* <tbody>
           {filteredData.map((row, index) => (
             <tr key={index} onClick={() => handleRowClick(row)}>
               <td>{row.trainNumber}</td>
               <td>{row.routeNumber}</td>
               <td>{row.trainName}</td>
-              <td>{`${row.currentLocation.coordinates[0]}, ${row.currentLocation.coordinates[1]}`}</td>
               <td>{row.startStation}</td>
               <td>{row.departure}</td>
               <td>{row.endStation}</td>
               <td>{row.arrival}</td>
               <td>{row.distance}</td>
+              <td>{"Click to see, " + row.trainName}</td>
+              <td>
+        <button onClick={() => alert(`Click to see, ${row.trainName}`)}>
+          See Details
+        </button>
+      </td>
+              
             </tr>
           ))}
-        </tbody>
+        </tbody> */}
+        <tbody>
+  {filteredData.map((row, index) => (
+    <tr key={index}>
+      <td>{row.trainNumber}</td>
+      <td>{row.routeNumber}</td>
+      <td>{row.trainName}</td>
+      
+    
+      <td>{row.startStation}</td>
+      <td>{row.departure}</td>
+      <td>{row.endStation}</td>
+      <td>{row.arrival}</td>
+      <td>{row.distance}</td>
+      <td>
+        <button
+          onClick={() => {
+            handleRowClick(row);
+          }}
+        >
+          See Location
+        </button>
+      </td>
+    </tr>
+  ))}
+</tbody>
+
       </table>
     </div>
   );

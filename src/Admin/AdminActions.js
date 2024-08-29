@@ -35,8 +35,8 @@ function AdminActions() {
   const [showCreateNewAdminForm, setShowCreateNewAdminForm] = useState(false);
 
   const [deleteAdminUsername, setDeleteAdminUsername] = useState('');
-const [deleteAdminPassword, setDeleteAdminPassword] = useState('');
-const [showDeleteAdminForm, setShowDeleteAdminForm] = useState(false);
+  const [deleteAdminPassword, setDeleteAdminPassword] = useState('');
+  const [showDeleteAdminForm, setShowDeleteAdminForm] = useState(false);
 
 
 
@@ -62,7 +62,7 @@ const [showDeleteAdminForm, setShowDeleteAdminForm] = useState(false);
     setShowCreateRailwayRouteForm(false);
     setShowDeleteRailwayRouteForm(false);
     setShowDeleteAdminForm(false);
-    setShowCreateNewAdminForm(false); 
+    setShowCreateNewAdminForm(false);
   };
 
   const handleCreateStationClick = () => {
@@ -74,7 +74,7 @@ const [showDeleteAdminForm, setShowDeleteAdminForm] = useState(false);
     setShowCreateRailwayRouteForm(false);
     setShowDeleteRailwayRouteForm(false);
     setShowDeleteAdminForm(false);
-    setShowCreateNewAdminForm(false); 
+    setShowCreateNewAdminForm(false);
   };
 
   const handleUpdateTrainRouteClick = () => {
@@ -85,7 +85,7 @@ const [showDeleteAdminForm, setShowDeleteAdminForm] = useState(false);
     setShowCreateTrainRouteForm(false);
     setShowCreateLineForm(false);
     setShowCreateRailwayRouteForm(false);
-    setShowCreateNewAdminForm(false); 
+    setShowCreateNewAdminForm(false);
     setShowDeleteRailwayRouteForm(false);
   };
 
@@ -97,7 +97,7 @@ const [showDeleteAdminForm, setShowDeleteAdminForm] = useState(false);
     setShowCreateLineForm(false);
     setShowCreateRailwayRouteForm(false);
     setShowDeleteRailwayRouteForm(false);
-    setShowCreateNewAdminForm(false); 
+    setShowCreateNewAdminForm(false);
     setShowDeleteAdminForm(false);
   };
 
@@ -109,7 +109,7 @@ const [showDeleteAdminForm, setShowDeleteAdminForm] = useState(false);
     setShowCreateLineForm(true);
     setShowCreateRailwayRouteForm(false);
     setShowDeleteRailwayRouteForm(false);
-    setShowCreateNewAdminForm(false); 
+    setShowCreateNewAdminForm(false);
     setShowDeleteAdminForm(false);
   };
 
@@ -121,7 +121,7 @@ const [showDeleteAdminForm, setShowDeleteAdminForm] = useState(false);
     setShowCreateLineForm(false);
     setShowCreateRailwayRouteForm(true);
     setShowDeleteRailwayRouteForm(false);
-    setShowCreateNewAdminForm(false); 
+    setShowCreateNewAdminForm(false);
     setShowDeleteAdminForm(false);
   };
 
@@ -133,7 +133,7 @@ const [showDeleteAdminForm, setShowDeleteAdminForm] = useState(false);
     setShowCreateRailwayRouteForm(false);
     setShowDeleteRailwayRouteForm(true);
     setShowCreateTrainRouteForm(false);
-    setShowCreateNewAdminForm(false); 
+    setShowCreateNewAdminForm(false);
     setShowDeleteAdminForm(false);
   };
 
@@ -148,7 +148,7 @@ const [showDeleteAdminForm, setShowDeleteAdminForm] = useState(false);
     setShowDeleteAdminForm(false);
     setShowCreateNewAdminForm(true); // Show Create New Admin form
   };
-  
+
   const handleDeleteAdminClick = () => {
     setShowCreateTrainForm(false);
     setShowCreateStationForm(false);
@@ -160,11 +160,11 @@ const [showDeleteAdminForm, setShowDeleteAdminForm] = useState(false);
     setShowCreateTrainRouteForm(false);
     setShowDeleteAdminForm(true); // Show the Delete Admin form
   };
-  
+
 
   const handleCreateAdminFormSubmit = async (e) => {
     e.preventDefault();
-  
+
     try {
       const response = await fetch('http://localhost:3000/trains/admin', {
         method: 'POST',
@@ -176,7 +176,7 @@ const [showDeleteAdminForm, setShowDeleteAdminForm] = useState(false);
           password: newAdminPassword,
         }),
       });
-  
+
       if (response.ok) {
         alert('New admin created successfully!');
         setShowCreateNewAdminForm(false);
@@ -191,7 +191,7 @@ const [showDeleteAdminForm, setShowDeleteAdminForm] = useState(false);
   };
   const handleDeleteAdminFormSubmit = async (e) => {
     e.preventDefault();
-  
+
     try {
       const response = await fetch(`http://localhost:3000/trains/admin?username=${deleteAdminUsername}&password=${deleteAdminPassword}`, {
         method: 'DELETE',
@@ -199,7 +199,7 @@ const [showDeleteAdminForm, setShowDeleteAdminForm] = useState(false);
           'Content-Type': 'application/json',
         },
       });
-  
+
       if (response.ok) {
         alert('Admin deleted successfully!');
         setShowDeleteAdminForm(false);
@@ -212,7 +212,7 @@ const [showDeleteAdminForm, setShowDeleteAdminForm] = useState(false);
       alert('An error occurred while deleting the admin.');
     }
   };
-  
+
   const handleLineFormSubmit = async (e) => {
     e.preventDefault();
 
@@ -233,8 +233,8 @@ const [showDeleteAdminForm, setShowDeleteAdminForm] = useState(false);
           have: haveArray,
         }),
       });
-      
-      const  result = await response.json();
+
+      const result = await response.json();
 
       if (response.ok) {
         alert('Line created successfully!');
@@ -329,16 +329,16 @@ const [showDeleteAdminForm, setShowDeleteAdminForm] = useState(false);
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          routeNumber: routeNumber,
           trainNumber: trainNumber,
           departure: departure,
           arrival: arrival,
           trainRouteNumber: trainRouteNumber,
         }),
       });
-
+      const result = await response.json();
       if (response.ok) {
-        alert('Train route updated successfully!');
+        setMessage('Train route updated successfully!');
+        setMessageType('success');
         setShowUpdateTrainRouteForm(false);
         setRouteNumber('');
         setTrainNumber('');
@@ -346,7 +346,8 @@ const [showDeleteAdminForm, setShowDeleteAdminForm] = useState(false);
         setArrival('');
         setTrainRouteNumber('');
       } else {
-        alert('Failed to update train route.');
+        setMessage(result.message || 'Failed to update train route.');
+        setMessageType('error');
       }
     } catch (error) {
       alert('An error occurred while updating the train route.');
@@ -399,8 +400,11 @@ const [showDeleteAdminForm, setShowDeleteAdminForm] = useState(false);
         }),
       });
 
+      const result = await response.json();
+
       if (response.ok) {
-        alert('Train route created successfully!');
+        setMessage(result.message || 'Train route created successfully!');
+        setMessageType('success');
         setShowCreateTrainRouteForm(false);
         setTrainRouteNumber('');
         setTrainNumber('');
@@ -409,10 +413,12 @@ const [showDeleteAdminForm, setShowDeleteAdminForm] = useState(false);
         setRouteNumber('');
         setCoordinates('');
       } else {
-        alert('Failed to create train route.');
+        setMessage(result.message || 'Failed to create train route.');
+        setMessageType('error');
       }
     } catch (error) {
-      alert('An error occurred while creating the train route.');
+      setMessage('An error occurred while creating the train route.');
+      setMessageType('error');
     }
   };
   const handleRailwayRouteFormSubmit = async (e) => {
@@ -470,7 +476,7 @@ const [showDeleteAdminForm, setShowDeleteAdminForm] = useState(false);
         <button onClick={handleDeleteAdminClick}>Delete Admin</button>
         <button className="see-train-schedule-button" onClick={handleSeeTrainSchedule}>See Train Schedule</button>
       </div>
-      
+
 
       {showCreateTrainForm && (
         <form className="create-train-form" onSubmit={handleTrainFormSubmit}>
@@ -497,7 +503,7 @@ const [showDeleteAdminForm, setShowDeleteAdminForm] = useState(false);
             />
           </div>
           <button type="submit">Create Train</button>
-          
+
           {message && (
             <div className={`alert-container alert-${messageType}`}>
               {message}
@@ -505,31 +511,31 @@ const [showDeleteAdminForm, setShowDeleteAdminForm] = useState(false);
           )}
         </form>
       )}
-{showCreateNewAdminForm && (
-    <form className="create-admin-form" onSubmit={handleCreateAdminFormSubmit}>
-      <div className="form-group">
-        <label htmlFor="newAdminUsername">Username</label>
-        <input
-          type="text"
-          id="newAdminUsername"
-          value={newAdminUsername}
-          onChange={(e) => setNewAdminUsername(e.target.value)}
-          required
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="newAdminPassword">Password</label>
-        <input
-          type="password"
-          id="newAdminPassword"
-          value={newAdminPassword}
-          onChange={(e) => setNewAdminPassword(e.target.value)}
-          required
-        />
-      </div>
-      <button type="submit">Create Admin</button>
-    </form>
-  )}
+      {showCreateNewAdminForm && (
+        <form className="create-admin-form" onSubmit={handleCreateAdminFormSubmit}>
+          <div className="form-group">
+            <label htmlFor="newAdminUsername">Username</label>
+            <input
+              type="text"
+              id="newAdminUsername"
+              value={newAdminUsername}
+              onChange={(e) => setNewAdminUsername(e.target.value)}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="newAdminPassword">Password</label>
+            <input
+              type="password"
+              id="newAdminPassword"
+              value={newAdminPassword}
+              onChange={(e) => setNewAdminPassword(e.target.value)}
+              required
+            />
+          </div>
+          <button type="submit">Create Admin</button>
+        </form>
+      )}
       {showDeleteRailwayRouteForm && (
         <form className="delete-railway-route-form" onSubmit={handleDeleteRailwayRouteFormSubmit}>
           <div className="form-group">
@@ -604,7 +610,7 @@ const [showDeleteAdminForm, setShowDeleteAdminForm] = useState(false);
               required
             />
           </div>
-          <div className="form-group">
+          {/* <div className="form-group">
             <label htmlFor="routeNumber">Route Number</label>
             <input
               type="text"
@@ -614,7 +620,7 @@ const [showDeleteAdminForm, setShowDeleteAdminForm] = useState(false);
               placeholder="Enter route number (e.g., R001)"
               required
             />
-          </div>
+          </div> */}
           <div className="form-group">
             <label htmlFor="trainNumber">Train Number</label>
             <input
@@ -649,6 +655,11 @@ const [showDeleteAdminForm, setShowDeleteAdminForm] = useState(false);
             />
           </div>
           <button type="submit">Update Train Route</button>
+          {message && (
+            <div className={`alert-container alert-${messageType}`}>
+              {message}
+            </div>
+          )}
         </form>
       )}
       {showCreateLineForm && (
@@ -716,31 +727,31 @@ const [showDeleteAdminForm, setShowDeleteAdminForm] = useState(false);
           )}
         </form>
       )}
-{showDeleteAdminForm && (
-  <div className="delete-admin-form">
-    <form onSubmit={handleDeleteAdminFormSubmit}>
-      <div className="form-group">
-        <label>Username</label>
-        <input
-          type="text"
-          value={deleteAdminUsername}
-          onChange={(e) => setDeleteAdminUsername(e.target.value)}
-          required
-        />
-      </div>
-      <div className="form-group">
-        <label>Password</label>
-        <input
-          type="password"
-          value={deleteAdminPassword}
-          onChange={(e) => setDeleteAdminPassword(e.target.value)}
-          required
-        />
-      </div>
-      <button type="submit">Delete Admin</button>
-    </form>
-  </div>
-)}
+      {showDeleteAdminForm && (
+        <div className="delete-admin-form">
+          <form onSubmit={handleDeleteAdminFormSubmit}>
+            <div className="form-group">
+              <label>Username</label>
+              <input
+                type="text"
+                value={deleteAdminUsername}
+                onChange={(e) => setDeleteAdminUsername(e.target.value)}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>Password</label>
+              <input
+                type="password"
+                value={deleteAdminPassword}
+                onChange={(e) => setDeleteAdminPassword(e.target.value)}
+                required
+              />
+            </div>
+            <button type="submit">Delete Admin</button>
+          </form>
+        </div>
+      )}
 
       {showCreateTrainRouteForm && (
         <form className="create-train-route-form" onSubmit={handleCreateTrainRouteSubmit}>
@@ -811,6 +822,11 @@ const [showDeleteAdminForm, setShowDeleteAdminForm] = useState(false);
             />
           </div>
           <button type="submit">Create Train Route</button>
+          {message && (
+            <div className={`alert-container alert-${messageType}`}>
+              {message}
+            </div>
+          )}
         </form>
       )}
       {showCreateRailwayRouteForm && (
