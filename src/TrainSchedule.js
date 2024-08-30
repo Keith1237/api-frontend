@@ -17,20 +17,20 @@ function TrainSchedule() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const trainRouteResponse = await fetch('http://localhost:3000/trains/trainRoute');
+        const trainRouteResponse = await fetch('http://54.166.114.40:3000/trains/trainRoute');
         if (!trainRouteResponse.ok) throw new Error('Failed to fetch train routes');
         const trainRoutes = await trainRouteResponse.json();
-
-        const trainDetailsResponse = await fetch('http://localhost:3000/trains');
+        
+        const trainDetailsResponse = await fetch('http://54.166.114.40:3000/trains');
         if (!trainDetailsResponse.ok) throw new Error('Failed to fetch train details');
         const trainDetails = await trainDetailsResponse.json();
 
-        const railwayRoutesResponse = await fetch('http://localhost:3000/trains/railwayRoutes');
+        const railwayRoutesResponse = await fetch('http://54.166.114.40:3000/trains/railwayRoutes');
         if (!railwayRoutesResponse.ok) throw new Error('Failed to fetch railway routes');
         const railwayRoutes = await railwayRoutesResponse.json();
 
         // Fetch station names for the dropdowns
-        const stationsResponse = await fetch('http://localhost:3000/trains/Stations');
+        const stationsResponse = await fetch('http://54.166.114.40:3000/trains/Stations');
         if (!stationsResponse.ok) throw new Error('Failed to fetch stations');
         const stationsData = await stationsResponse.json();
         setStations(stationsData);
@@ -69,7 +69,7 @@ function TrainSchedule() {
     if (startStation && endStation) {
       try {
         const response = await fetch(
-          `http://localhost:3000/trains/railwayRoutesByStations?startStation=${startStation}&endStation=${endStation}`
+          `http://54.166.114.40:3000/trains/railwayRoutesByStations?startStation=${startStation}&endStation=${endStation}`
         );
         if (!response.ok) throw new Error('Failed to fetch filtered routes');
         const filteredRoutes = await response.json();
