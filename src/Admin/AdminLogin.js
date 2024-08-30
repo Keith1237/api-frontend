@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './AdminLogin.css';
 
+const trainRouteURL = `${process.env.REACT_APP_BACKEND_URL}/trains`;
+
 function AdminLogin() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -10,7 +12,7 @@ function AdminLogin() {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch('http://localhost:3000/trains/admin');
+      const response = await fetch(`${trainRouteURL}/admin`);
       const adminData = await response.json();
 
       const isValid = adminData.some(

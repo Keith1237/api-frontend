@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './AdminActions.css';
 
+const trainRouteURL = `${process.env.REACT_APP_BACKEND_URL}/trains`;
+
 function AdminActions() {
   const [showCreateTrainForm, setShowCreateTrainForm] = useState(false);
   const [showCreateStationForm, setShowCreateStationForm] = useState(false);
@@ -37,11 +39,6 @@ function AdminActions() {
   const [deleteAdminUsername, setDeleteAdminUsername] = useState('');
   const [deleteAdminPassword, setDeleteAdminPassword] = useState('');
   const [showDeleteAdminForm, setShowDeleteAdminForm] = useState(false);
-
-
-
-
-
 
   const navigate = useNavigate();
 
@@ -146,7 +143,7 @@ function AdminActions() {
     setShowDeleteRailwayRouteForm(false);
     setShowCreateTrainRouteForm(false);
     setShowDeleteAdminForm(false);
-    setShowCreateNewAdminForm(true); // Show Create New Admin form
+    setShowCreateNewAdminForm(true); 
   };
 
   const handleDeleteAdminClick = () => {
@@ -158,7 +155,7 @@ function AdminActions() {
     setShowDeleteRailwayRouteForm(false);
     setShowCreateNewAdminForm(false);
     setShowCreateTrainRouteForm(false);
-    setShowDeleteAdminForm(true); // Show the Delete Admin form
+    setShowDeleteAdminForm(true); 
   };
 
 
@@ -166,7 +163,7 @@ function AdminActions() {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:3000/trains/admin', {
+      const response = await fetch(`${trainRouteURL}/admin`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -193,7 +190,7 @@ function AdminActions() {
     e.preventDefault();
 
     try {
-      const response = await fetch(`http://localhost:3000/trains/admin?username=${deleteAdminUsername}&password=${deleteAdminPassword}`, {
+      const response = await fetch(`${trainRouteURL}/admin?username=${deleteAdminUsername}&password=${deleteAdminPassword}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -220,7 +217,7 @@ function AdminActions() {
     const haveArray = have.split(',').map(item => item.trim());
 
     try {
-      const response = await fetch('http://localhost:3000/trains/lines', {
+      const response = await fetch(`${trainRouteURL}/lines`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -257,7 +254,7 @@ function AdminActions() {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:3000/trains', {
+      const response = await fetch(`${trainRouteURL}/trains`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -291,7 +288,7 @@ function AdminActions() {
     const coordinatesArray = coordinates.split(',').map(coord => parseFloat(coord.trim()));
 
     try {
-      const response = await fetch('http://localhost:3000/trains/stations', {
+      const response = await fetch(`${trainRouteURL}/stations`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -323,7 +320,7 @@ function AdminActions() {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:3000/trains/trainRoute', {
+      const response = await fetch(`${trainRouteURL}/trainRoute`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -358,7 +355,7 @@ function AdminActions() {
     e.preventDefault();
 
     try {
-      const response = await fetch(`http://localhost:3000/trains/railwayRoutes?routeNumber=${deleteRouteNumber}`, {
+      const response = await fetch(`${trainRouteURL}/railwayRoutes?routeNumber=${deleteRouteNumber}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -385,7 +382,7 @@ function AdminActions() {
     const coordinatesArray = coordinates.split(',').map(coord => parseFloat(coord.trim()));
 
     try {
-      const response = await fetch('http://localhost:3000/trains/trainRoute', {
+      const response = await fetch(`${trainRouteURL}/trainRoute`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -429,7 +426,7 @@ function AdminActions() {
     const stationsInRouteArray = stationsInRoute.split(',').map(item => item.trim());
 
     try {
-      const response = await fetch('http://localhost:3000/trains/railwayRoutes', {
+      const response = await fetch(`${trainRouteURL}/railwayRoutes`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

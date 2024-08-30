@@ -7,14 +7,15 @@ import MapPage from './MapPage';
 import AdminLogin from './Admin/AdminLogin'; // Import the AdminLogin component
 import AdminActions from './Admin/AdminActions'; // Import the AdminActions component
 import './App.css';
-
+const trainRouteURL = `${process.env.REACT_APP_BACKEND_URL}/trains`;
 function App() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  
 
   useEffect(() => {
-    fetch('http://localhost:3000/trains/getlines')
+    fetch(`${trainRouteURL}/lines`)
       .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
